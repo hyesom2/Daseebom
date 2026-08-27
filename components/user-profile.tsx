@@ -1,12 +1,22 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 
-export default function UserProfile() {
+type Props = {
+  userProfile: {
+    name: string;
+    email?: string;
+    picture: string;
+  } | null
+}
+
+export default function UserProfile({ userProfile }: Props) {
+  if (!userProfile) return null;
+
   return (
     <View style={ styles.profile}>
       <Image
-        source={{ uri: "https://i.namu.wiki/i/1mEwgl9rjQOSNrLd0BztTE7NcPOGnzRxHl_SW_uawAxtnMk9Tdzh3wTwqZK7Q1Q3FENfDJ4yqEmRMiKnTg_wNA.webp"}}
+        source={{ uri: userProfile.picture }}
         style={styles.profileImg} />
-      <Text style={ styles.profileName}>치즈덕</Text>
+      <Text style={ styles.profileName }>{userProfile.name}</Text>
     </View>
   )
 }
