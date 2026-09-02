@@ -1,20 +1,10 @@
 import VideoItem from '@/components/video-item';
+import { VideoItemType } from '@/types/video';
 import type { ReactElement } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 
 type Props = {
-  videos: {
-    id: string;
-    snippet: {
-      title: string;
-      thumbnails: {
-        default: {
-          url: string;
-        }
-      }
-      description: string;
-    };
-  }[];
+  videos: VideoItemType[];
   ListFooterComponent?: ReactElement | null;
 };
 

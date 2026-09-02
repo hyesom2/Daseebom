@@ -1,17 +1,5 @@
+import { VideoItemType } from '@/types/video';
 import { useEffect, useState } from "react";
-
-type VideoItemType = {
-  id: string;
-  snippet: {
-    title: string;
-    thumbnails: {
-      default: {
-        url: string;
-      }
-    }
-    description: string;
-  }
-};
 
 export default function useLikedVideos(accessToken: string | null) {
   const [likedVideos, setLikedVideos] = useState<VideoItemType[]>([]);
