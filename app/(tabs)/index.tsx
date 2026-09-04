@@ -1,4 +1,5 @@
 import LoginButton from "@/components/login-button";
+import LogoutButton from '@/components/logout-button';
 import MoreButton from '@/components/more-button';
 import SearchBar from '@/components/search-bar';
 import UserProfile from "@/components/user-profile";
@@ -10,7 +11,7 @@ import useVideoSearch from '@/hooks/use-video-search';
 import { StyleSheet, Text, View } from "react-native";
 
 export default function App() {
-  const { accessToken, isLoggedIn, login, request } = useGoogleAuth();
+  const { accessToken, isLoggedIn, login, logout, request } = useGoogleAuth();
   const { userProfile } = useUserProfile(accessToken);
   const { videos, isLoading, hasMore, loadMoreVideos } = useLikedVideos(accessToken); 
   const { query, setQuery, search, results, isSearching, clearSearch } = useVideoSearch(accessToken);
@@ -29,7 +30,12 @@ export default function App() {
       }
       {/* 유저 프로필 */}
       {
-        isLoggedIn && userProfile && <UserProfile userProfile={userProfile} />
+        isLoggedIn && userProfile && (
+          <View style={styles.profileContainer}>
+            < UserProfile userProfile={userProfile} />
+            <LogoutButton onPress={logout} />
+          </View>
+        )
       }
       {/* 영상 검색 */}
       {
@@ -38,7 +44,7 @@ export default function App() {
             value={query}
             onChangeText={(text) => {
               setQuery(text);
-              if (text === "") clearSearch(); // 검색어 지우면 원래 목록으로 복귀
+              if (text === "") clearSearch();
             }}
             onSubmit={search}
           />
@@ -66,6 +72,11 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  profileContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: 16,
+  },
   container: {
     flex: 1,
   }

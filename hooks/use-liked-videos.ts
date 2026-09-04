@@ -7,7 +7,13 @@ export default function useLikedVideos(accessToken: string | null) {
   const [nextPageToken, setNextPageToken] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!accessToken) return;
+    if (!accessToken) {
+      setLikedVideos([]);
+      setNextPageToken(null);
+
+      return;
+    }
+
     setLikedVideos([]);
     setNextPageToken(null);
     fetchLikedVideos(accessToken);

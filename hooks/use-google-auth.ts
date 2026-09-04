@@ -65,6 +65,17 @@ export function useGoogleAuth() {
   const login = () => promptAsync();
 
   const logout = async () => {
+    if (accessToken) {
+      try {
+        await fetch(
+          `https://oauth2.googleapis.com/revoke?token=${accessToken}`,
+          { method: "POST" }
+        );
+      } catch (error) {
+        console.error("토큰 취소 요청 실패했습니다. :", error);
+      }
+    }
+
     await storage.removeItem("access_token");
     await storage.removeItem("refresh_token");
     setAccessToken(null);
