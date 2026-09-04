@@ -25,7 +25,7 @@ export default function VideoListItem({ video, isExpanded, onToggle }: Props) {
   }, [isExpanded, playerHeight, animatedHeight]);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { gap: isExpanded ? 0 : 8 }]}>
       <Pressable onPress={onToggle}>
         <VideoItem video={video} />
       </Pressable>
@@ -41,6 +41,5 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flexDirection: 'column',
-    gap: 8,
   }
 });
