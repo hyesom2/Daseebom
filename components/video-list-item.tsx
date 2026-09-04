@@ -2,7 +2,7 @@ import VideoItem from "@/components/video-item";
 import VideoPlayer from "@/components/video-player";
 import { VideoItemType } from "@/types/video";
 import { useEffect, useRef } from "react";
-import { Animated, Pressable, useWindowDimensions, View } from "react-native";
+import { Animated, Pressable, StyleSheet, useWindowDimensions, View } from "react-native";
 
 type Props = {
   video: VideoItemType;
@@ -25,7 +25,7 @@ export default function VideoListItem({ video, isExpanded, onToggle }: Props) {
   }, [isExpanded, playerHeight, animatedHeight]);
 
   return (
-    <View>
+    <View style={styles.container}>
       <Pressable onPress={onToggle}>
         <VideoItem video={video} />
       </Pressable>
@@ -36,3 +36,11 @@ export default function VideoListItem({ video, isExpanded, onToggle }: Props) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 8,
+  }
+});

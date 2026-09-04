@@ -13,9 +13,8 @@ export default function VideoItem({ video }: Props) {
         style={styles.thumbnail}
       />
       <View style={styles.description}>
-        <Text numberOfLines={2} ellipsizeMode="tail">{video.snippet.title}</Text>
-        <Text numberOfLines={2} ellipsizeMode="tail">{video.snippet.description}</Text>
-        <Text style={styles.channel} numberOfLines={1} ellipsizeMode="tail">{video.snippet.channelTitle}</Text>
+        <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">{video.snippet.title}</Text>
+        <Text style={styles.channelTitle} numberOfLines={1} ellipsizeMode="tail">{video.snippet.channelTitle}</Text>
       </View>
     </View>
   )
@@ -25,11 +24,11 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flexDirection: 'row',
-    gap: 8,
+    gap: 16,
   },
   thumbnail: {
-    width: 100,
-    height: 80,
+    width: 140,
+    minHeight: 100,
     borderRadius: 8,
     flexShrink: 0,
   },
@@ -37,9 +36,12 @@ const styles = StyleSheet.create({
     display: 'flex',
     flex: 1,
     flexDirection: 'column',
-    gap: 4,
+    justifyContent: 'space-between',
   },
-  channel: {
+  title: {
+    fontSize: 14,
+  },
+  channelTitle: {
     fontSize: 12,
     color: '#666',
   }
