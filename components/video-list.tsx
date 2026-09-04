@@ -1,4 +1,5 @@
-import VideoItem from '@/components/video-item';
+import VideoListItem from '@/components/video-list-item';
+import useExpandableVideo from '@/hooks/use-expandable-video';
 import { VideoItemType } from '@/types/video';
 import type { ReactElement } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
@@ -9,6 +10,7 @@ type Props = {
 };
 
 export default function VideoList({ videos, ListFooterComponent }: Props) {
+  const { isExpanded, toggle } = useExpandableVideo();
   console.log(videos);
 
   return (
@@ -16,7 +18,13 @@ export default function VideoList({ videos, ListFooterComponent }: Props) {
       style={styles.container}
       data={videos}
       keyExtractor={(item) => item.id}
-      renderItem={({ item }) => <VideoItem video={item} />}
+      renderItem={({ item }) => (
+        <VideoListItem
+          video={item}
+          isExpanded={isExpanded(item.id)}
+          onToggle={() => toggle(item.id)}
+        />
+      )}
       ListFooterComponent={ListFooterComponent}
       showsVerticalScrollIndicator={false}
     />
