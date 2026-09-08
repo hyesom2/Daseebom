@@ -8,15 +8,23 @@ type Props = {
     email?: string;
     picture: string;
   } | null,
+  isSearchOpen?: boolean,
+  onSearchPress: () => void,
 }
 
-export default function Header({ userProfile}: Props) {
+export default function Header({ userProfile, isSearchOpen, onSearchPress }: Props) {
   return (
     <View style={styles.container}>
       <UserProfile userProfile={userProfile} />
       <View style={styles.iconContainer}>
-        <Pressable>
-          <Ionicons name="search" size={24}  color="black" />
+        <Pressable onPress={onSearchPress}>
+          {
+            isSearchOpen
+              ?
+            <Ionicons name="close" size={24} color="black" />
+              :
+            <Ionicons name="search" size={24} color="black" />
+          }
         </Pressable>
         <Pressable>
           <Ionicons name="ellipsis-vertical" size={24}  color="black" />

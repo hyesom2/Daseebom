@@ -1,12 +1,13 @@
 import Header from '@/components/header';
 import LoginButton from "@/components/login-button";
 import MoreButton from '@/components/more-button';
-import SearchBar from '@/components/search-bar';
+import SearchBar from "@/components/search-bar";
 import VideoList from "@/components/video-list";
 import { useGoogleAuth } from "@/hooks/use-google-auth";
 import useLikedVideos from "@/hooks/use-liked-videos";
 import { useUserProfile } from "@/hooks/use-user-profile";
 import useVideoSearch from '@/hooks/use-video-search';
+import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 export default function App() {
@@ -14,8 +15,14 @@ export default function App() {
   const { userProfile } = useUserProfile(accessToken);
   const { videos, isLoading, hasMore, loadMoreVideos } = useLikedVideos(accessToken); 
   const { query, setQuery, search, results, isSearching, clearSearch } = useVideoSearch(accessToken);
+  
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const isSearchMode = results !== null;
+
+  const handleSearchToggle = () => {
+    setIsSearchOpen((prev) => !prev);
+  };
 
   return (
     <View style={styles.container}>
@@ -32,20 +39,24 @@ export default function App() {
         isLoggedIn && userProfile && (
           <Header
             userProfile={userProfile}
+            isSearchOpen={isSearchOpen}
+            onSearchPress={() => handleSearchToggle()}
           />
         )
       }
       {/* 영상 검색 */}
       {
-        isLoggedIn && (
-          <SearchBar
-            value={query}
-            onChangeText={(text) => {
-              setQuery(text);
-              if (text === "") clearSearch();
-            }}
-            onSubmit={search}
-          />
+        isLoggedIn && isSearchOpen && (
+          <View style={styles.searchbarWrapper}>
+            <SearchBar
+              value={query}
+              onChangeText={(text) => {
+                setQuery(text);
+                if (text === "") clearSearch();
+              }}
+              onSubmit={search}
+            />
+          </View>
         )
       }
       {/* 영상 검색 결과 리스트 */}
@@ -78,5 +89,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+  },
+  searchbarWrapper: {
+    paddingHorizontal: 20,
   }
 })
