@@ -1,8 +1,7 @@
+import Header from '@/components/header';
 import LoginButton from "@/components/login-button";
-import LogoutButton from '@/components/logout-button';
 import MoreButton from '@/components/more-button';
 import SearchBar from '@/components/search-bar';
-import UserProfile from "@/components/user-profile";
 import VideoList from "@/components/video-list";
 import { useGoogleAuth } from "@/hooks/use-google-auth";
 import useLikedVideos from "@/hooks/use-liked-videos";
@@ -31,10 +30,9 @@ export default function App() {
       {/* 유저 프로필 */}
       {
         isLoggedIn && userProfile && (
-          <View style={styles.profileContainer}>
-            < UserProfile userProfile={userProfile} />
-            <LogoutButton onPress={logout} />
-          </View>
+          <Header
+            userProfile={userProfile}
+          />
         )
       }
       {/* 영상 검색 */}
@@ -76,6 +74,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     gap: 16,
+    padding: 20,
   },
   container: {
     flex: 1,
