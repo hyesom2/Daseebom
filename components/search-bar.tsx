@@ -43,7 +43,8 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8
+    gap: 8,
+    paddingTop: 20,
   },
   wrapper: {
     position: "relative",
