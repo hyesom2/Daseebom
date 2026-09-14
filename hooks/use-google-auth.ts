@@ -11,6 +11,7 @@ const redirectUri = AuthSession.makeRedirectUri({ scheme: REDIRECT_SCHEME });
 export function useGoogleAuth() {
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAuthLoading, setIsAuthLoading] = useState(false);
 
   const [request, response, promptAsync] = AuthSession.useAuthRequest(
     {
@@ -36,6 +37,8 @@ export function useGoogleAuth() {
   }, [response]);
 
   const exchangeCodeForToken = async (code: string) => {
+    setIsAuthLoading(true);
+
     try {
       const tokenResponse = await AuthSession.exchangeCodeAsync(
         {
@@ -59,6 +62,8 @@ export function useGoogleAuth() {
       setIsLoggedIn(true);
     } catch (e) {
       console.error("토큰 교환 실패:", e);
+    } finally {
+      setIsAuthLoading(false);
     }
   };
 
@@ -82,5 +87,5 @@ export function useGoogleAuth() {
     setIsLoggedIn(false);
   };
 
-  return { accessToken, isLoggedIn, login, logout, request };
+  return { accessToken, isLoggedIn, login, logout, request, isAuthLoading };
 }

@@ -1,5 +1,5 @@
 import Header from '@/components/header';
-import LoginButton from "@/components/login-button";
+import LogoutButton from '@/components/logout-button';
 import MoreButton from '@/components/more-button';
 import SearchBar from "@/components/search-bar";
 import VideoList from "@/components/video-list";
@@ -7,11 +7,12 @@ import { useGoogleAuth } from "@/hooks/use-google-auth";
 import useLikedVideos from "@/hooks/use-liked-videos";
 import { useUserProfile } from "@/hooks/use-user-profile";
 import useVideoSearch from '@/hooks/use-video-search';
+import LoginScreen from '@/screens/login-screen';
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 export default function App() {
-  const { accessToken, isLoggedIn, login, logout, request } = useGoogleAuth();
+  const { accessToken, isLoggedIn, login, logout, request, isAuthLoading } = useGoogleAuth();
   const { userProfile } = useUserProfile(accessToken);
   const { videos, isLoading, hasMore, loadMoreVideos } = useLikedVideos(accessToken); 
   const { query, setQuery, search, results, isSearching, clearSearch } = useVideoSearch(accessToken);
@@ -29,19 +30,23 @@ export default function App() {
       {/* 구글 로그인 버튼 */}
       {
         !isLoggedIn &&
-        <LoginButton
+        <LoginScreen
           disabled={!request}
           onPress={login}
+          isLoading={isAuthLoading}
         />
       }
       {/* 유저 프로필 */}
       {
         isLoggedIn && userProfile && (
-          <Header
-            userProfile={userProfile}
-            isSearchOpen={isSearchOpen}
-            onSearchPress={() => handleSearchToggle()}
-          />
+          <>
+            <Header
+              userProfile={userProfile}
+              isSearchOpen={isSearchOpen}
+              onSearchPress={() => handleSearchToggle()}
+            />
+            <LogoutButton onPress={logout} />
+          </>
         )
       }
       {/* 영상 검색 */}
@@ -81,14 +86,17 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: "100%",
+    maxWidth: 720,
+    alignSelf: "center",
+  },
   profileContainer: {
     display: 'flex',
     flexDirection: 'row',
     gap: 16,
     padding: 20,
-  },
-  container: {
-    flex: 1,
   },
   searchbarWrapper: {
     paddingHorizontal: 20,
