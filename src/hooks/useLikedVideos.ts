@@ -2,10 +2,10 @@
 import { getLikedVideos } from '@/services/youtube';
 import { useEffect, useState } from 'react';
 
-export default function useLikedVideos(accessToken: string) {
+export default function useLikedVideos(accessToken: string | null) {
   const [videos, setVideos] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!accessToken) return;
