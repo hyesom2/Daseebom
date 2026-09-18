@@ -1,3 +1,4 @@
+import VideoList from '@/components/VideoList';
 import { useGoogleAuth } from '@/hooks/useGoogleAuth';
 import useLikedVideos from '@/hooks/useLikedVideos';
 
@@ -17,21 +18,15 @@ export default function App() {
   }
 
   return (
-    <>
-      <button onClick={logout}> 로그아웃</button>
-      {isLoading && <p>좋아요 영상을 불러오는 중 입니다...</p>}
-      {
-        <ul>
-          {videos.map((video) => (
-            <li key={video.snippet.channelId}>
-              <img src={video.snippet.thumbnails.medium.url} alt="" />
+    <main>
+      <header>
+        <button onClick={logout}> 로그아웃</button>
+      </header>
 
-              <p>{video.snippet.title}</p>
-              <span>{video.snippet.channelTitle}</span>
-            </li>
-          ))}
-        </ul>
-      }
-    </>
+      {isLoading && <p>좋아요 영상을 불러오는 중 입니다...</p>}
+      {error && <p>{error}</p>}
+
+      {!isLoading && !error && <VideoList videos={videos} />}
+    </main>
   );
 }
