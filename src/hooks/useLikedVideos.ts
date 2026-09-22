@@ -1,4 +1,3 @@
-// React 상태 관리 담당
 import { getLikedVideos } from '@/services/youtube';
 import { useEffect, useState } from 'react';
 
@@ -27,9 +26,5 @@ export default function useLikedVideos(accessToken: string | null) {
     fetchLikedVideos();
   }, [accessToken]);
 
-  return {
-    videos,
-    isLoading,
-    error,
-  };
+  return { videos, isLoading, error };
 }
