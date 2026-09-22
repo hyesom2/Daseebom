@@ -1,10 +1,13 @@
+import Header from '@/components/Header';
 import VideoList from '@/components/VideoList';
 import { useGoogleAuth } from '@/hooks/useGoogleAuth';
 import useLikedVideos from '@/hooks/useLikedVideos';
+import { useUserInfo } from '@/hooks/useUserInfo';
 
 export default function App() {
   const { accessToken, isLoggedIn, login, logout } = useGoogleAuth();
   const { videos, isLoading, error } = useLikedVideos(accessToken);
+  const { userInfo } = useUserInfo(accessToken);
 
   if (!isLoggedIn) {
     return (
@@ -19,9 +22,7 @@ export default function App() {
 
   return (
     <main>
-      <header>
-        <button onClick={logout}> 로그아웃</button>
-      </header>
+      <Header userInfo={userInfo} logout={logout} />
 
       {isLoading && <p>좋아요 영상을 불러오는 중 입니다...</p>}
       {error && <p>{error}</p>}
